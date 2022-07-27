@@ -11,9 +11,11 @@ $ composer require guzzlehttp/guzzle:^7.4
 $ composer update
 ```
 - Go to file `<slims root>/plugins/kamar_slims/kamar_slims.plugin.php` edit row 
-`$config['library_name'] = 'Perpustakaan Ideal Serbaguna';` with your library name,
-`$config['footer_text'] = 'Harap simpan resi ini sebagai bukti transaksi.';` with closing message,
-`$config['token'] = 'token';` with token wablas
+```php
+$config['library_name'] = 'Perpustakaan Serbaguna'; // your library name,
+$config['footer_text'] = 'Harap simpan resi ini sebagai bukti transaksi.'; // closing message,
+$config['token'] = 'token'; // token wablas
+```
 - Activate the plugin, Go to menu System -> Plugin -> Kamar Slims -> Enable
 
 ## How to usage
