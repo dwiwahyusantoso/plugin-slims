@@ -2,7 +2,10 @@
 ## How to install the plugin
 
 - Download this plugin and put in `<slims root>/plugins` directory
-- Require "guzzlehttp/guzzle": "^7.4" in the file composer.json
+- Require "guzzlehttp/guzzle": "^7.4" in the file composer.json or 
+```
+$ composer require guzzlehttp/guzzle:^7.4
+```
 - Do composer update
 ```
 $ composer update
