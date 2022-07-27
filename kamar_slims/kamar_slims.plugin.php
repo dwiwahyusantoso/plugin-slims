@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Kamar Slims
  * Plugin URI:
- * Description: Circulation Notification using Whatsapp by Wablas (https://wablas.com/). 
+ * Description: Circulation Notification using Whatsapp
  * Version: 1.0.0
  * Author: Silvanix
  */
@@ -18,27 +18,33 @@ use SLiMS\Plugins;
 $plugin = Plugins::getInstance();
 
 /**
- *  Prepare variable to storing old data
+ *  Prepare variable to config
  */
 $config = [];
-$config['library_name'] = 'Perpustakaan Ideal Serbaguna';
-$config['footer_text'] = 'Harap simpan resi ini sebagai bukti transaksi.';
-$config['token'] = 'token';
+$config['library_name'] = 'Perpustakaan Ideal Serbaguna'; // your library name
+$config['footer_text'] = 'Harap simpan resi ini sebagai bukti transaksi.'; // closing message
+$config['token'] = 'token'; // token wablas
 $config['secret-key'] = '123456789';
 $config['service'] = 'slims';
 
 /**
- * Registering hook plugin on bibliography before updated
- * In this hook, we will get the old data.
+ * Registering hook plugin on circulation_after_successful_transaction
+ * In this hook, we will get the data circulation.
  */
 $plugin->register("circulation_after_successful_transaction", function($data) use (&$config) {
     if ( (isset($data['loan'])) OR (isset($data['return'])) OR (isset($data['extend'])) ) {
         # Getting member data to get member_phone info.
         $member_data = api::member_load(DB::getInstance('mysqli'), $data['memberID']);
-        # Tambahkan validasi member_phone disini jika dibutuhkan. Kalau nomer
-        #tidak ada atau tidak valid, tidak usah diproses.
         if (isset($member_data[0]['member_phone'])) {
+            # Validasi member_phone.
             $phone = $member_data[0]['member_phone'];
+            $phone = str_replace(" ","",$phone);
+            $phone = str_replace("-","",$phone);
+            $phone = str_replace("+","",$phone);
+        
+            if(substr($phone, 0, 1)=='0'){
+              $phone = '62'.substr($phone, 1);
+            }
 
             # HEADER
             $message = '*'.strtoupper($config['library_name'])."*\n";
